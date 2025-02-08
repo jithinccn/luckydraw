@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five Spinning Wheels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #a3c6e4;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+       
+        body::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('test1.jpeg'); 
+            background-size: contain;
+            background-position:center;
+            opacity: 0.10;
+            z-index: -1;
+        }
+       
+
+       
+        .wheels {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            margin: 20px;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #000;
+            position: relative;
+            transform: rotate(-90deg);
+            transform-origin: center;
+        }
+
+      
+        #binaryWheel {
+            background: conic-gradient(
+                #ff4d4d 0% 50%,
+                #6fa8dc 50% 100%
+            );
+        }
+
+        #wheel1, #wheel2, #wheel3, #wheel4 {
+            background: conic-gradient(
+                #ff4d4d 0% 10%,
+                #ffd966 10% 20%,
+                #6fa8dc 20% 30%,
+                #93c47d 30% 40%,
+                #ff9900 40% 50%,
+                #a64d79 50% 60%,
+                #76a5af 60% 70%,
+                #e06666 70% 80%,
+                #674ea7 80% 90%,
+                #3d85c6 90% 100%
+            );
+        }
+
+    
+        .number {
+            position: absolute;
+            left: 47%;
+            top: 75px;
+            transform-origin: center;
+            text-align: center;
+            font-weight: bold;
+            color: black;
+        }
+
+    
+        .pointer {
+            position: absolute;
+            top: 60px;
+            left: 100%;
+            transform: translateX(-10%);
+            width: 20px;
+            height: 20px;
+            background: rgb(240, 5, 5);
+            clip-path: polygon(100% 20%, 0% 100%, 100% 100%);
+        }
+
+    
+        .controls {
+            margin-top: 20px;
+        }
+
+  
+        .result {
+            font-size: 5em;
+            margin-top: 0px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff0099, 0 0 30px #ff0099, 0 0 40px #ff0099, 0 0 50px #ff0099, 0 0 60px #ff0099;
+            animation: glow 1.5s infinite alternate;
+            display: none;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px #fff, 0 0 20px #ff0099, 0 0 30px #ff0099, 0 0 40px #ff0099, 0 0 50px #ff0099, 0 0 60px #ff0099;
+            }
+            100% {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff33cc, 0 0 40px #ff33cc, 0 0 50px #ff33cc, 0 0 60px #ff33cc, 0 0 70px #ff33cc;
+            }
+        }
+
+        .number-result {
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .startButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #f39c12;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .startButton:hover {
+            background-color: #e67e22;
+        }
+        .scroll-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .scroll-text {
+            display: inline-block;
+            font-size: 30px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff8c00, #ff0080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: scroll 18s linear infinite;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        .word span {
+            font-size: 70px;
+            font-weight:bold;
+            display: inline-block;
+            animation: rotate 1.5s infinite ease-in-out;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                         0 0 20px rgba(255, 255, 255, 0.6),
+                         0 0 30px rgba(255, 0, 255, 0.8);
+        }
+
+        /* Apply different delays for each letter */
+        .word span:nth-child(1) { animation-delay: 0s; }
+        .word span:nth-child(2) { animation-delay: 0.2s; }
+        .word span:nth-child(3) { animation-delay: 0.4s; }
+        .word span:nth-child(4) { animation-delay: 0.6s; }
+        .word span:nth-child(5) { animation-delay: 0.8s; }
+        .word span:nth-child(6) { animation-delay: 1.0s; }
+        .word span:nth-child(7) { animation-delay: 1.2S; }
+        .word span:nth-child(8) { animation-delay: 1.4s; }
+        .word span:nth-child(9) { animation-delay: 1.6s; }
+        .word span:nth-child(10) { animation-delay: 1.8s; }
+
+        @keyframes rotate {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+            100% { transform: rotateY(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="scroll-text">
+            ബളാൽ ശ്രീ ഭഗവതി ക്ഷേത്രം - അഷ്ടബന്ധ സഹസ്ര കുമ്പാഭിഷേകവും - പ്രതിഷ്ഠാദിന മഹോത്സവവും, - പള്ളിയറയിലും കോട്ടക്കോട്ടകാവിലും തെയ്യംകെട്ട് ഉത്സവവും ,നറുക്കെടുപ്പ് 
+        </div>
+    </div>
+    <div class="frameimage">
+        <div class="word">
+            <span>L</span>
+            <span>U</span>
+            <span>C</span>
+            <span>K</span>
+            <span>Y</span>
+            <span> </span>
+            <span>D</span>
+            <span>R</span>
+            <span>A</span>
+            <span>W</span>
+
+        </div>
+        <img src="luckydrw.png" alt="Description of image" width="70">
+    </div>
+    <div class="wheels">
+        <div class="wheel-container">
+            <div class="wheel" id="binaryWheel"></div>
+            <div class="pointer"></div>
+            <div class="number-result" id="binaryNumber">Binary: </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel" id="wheel1"></div>
+            <div class="pointer"></div>
+            <div class="number-result" id="number1">Number: </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel" id="wheel2"></div>
+            <div class="pointer"></div>
+            <div class="number-result" id="number2">Number: </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel" id="wheel3"></div>
+            <div class="pointer"></div>
+            <div class="number-result" id="number3">Number: </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel" id="wheel4"></div>
+            <div class="pointer"></div>
+            <div class="number-result" id="number4">Number: </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="startButton" class="startButton">Start All</button>
+    </div>
+    <div class="result" id="finalResult"> </div>
+
+    <script>
+        const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const binaryNumbers = [0, 1];
+        const results = [];
+
+        const createWheel = (wheelId, resultId, numberSet, sectionAngle, index) => {
+            const wheel = document.getElementById(wheelId);
+            const result = document.getElementById(resultId);
+
+            numberSet.forEach((number, idx) => {
+                const numberElement = document.createElement('div');
+                numberElement.className = 'number';
+                numberElement.textContent = number;
+                const angle = sectionAngle * idx;
+                numberElement.style.transform = `rotate(${angle}deg) translate(60px) rotate(-${angle}deg)`;
+                wheel.appendChild(numberElement);
+            });
+
+            return () => {
+                const duration = Math.random() * 7000 + 2000;
+                const randomDegree = Math.floor(Math.random() * 360 + 720);
+
+                wheel.style.transition = 'none';
+                wheel.style.transform = 'rotate(-90deg)';
+
+                setTimeout(() => {
+                    wheel.style.transition = `transform ${duration}ms cubic-bezier(0.33, 1, 0.68, 1)`;
+                    wheel.style.transform = `rotate(${randomDegree - 90}deg)`;
+                }, 0);
+
+                setTimeout(() => {
+                    const finalAngle = (randomDegree - 90) % 360;
+                    const normalizedAngle = (360 - finalAngle + sectionAngle / 2) % 360;
+                    const selectedIndex = Math.floor(normalizedAngle / sectionAngle);
+                    const selectedNumber = numberSet[selectedIndex];
+                    result.textContent = `Number: ${selectedNumber}`;
+                    results[index] = selectedNumber;
+
+                    if (results.length === 5) {
+                        const concatenatedResult = results.join('');
+                        const finalResultElement = document.getElementById('finalResult');
+                        finalResultElement.textContent = `Final Result: ${concatenatedResult}`;
+                        finalResultElement.style.display = 'block'; // Show the glowing result
+                    }
+                }, duration);
+            };
+        };
+
+        const binarySectionAngle = 360 / binaryNumbers.length;
+        const spinBinaryWheel = createWheel('binaryWheel', 'binaryNumber', binaryNumbers, binarySectionAngle, 0);
+
+        const sectionAngle = 360 / numbers.length;
+        const spinWheel1 = createWheel('wheel1', 'number1', numbers, sectionAngle, 1);
+        const spinWheel2 = createWheel('wheel2', 'number2', numbers, sectionAngle, 2);
+        const spinWheel3 = createWheel('wheel3', 'number3', numbers, sectionAngle, 3);
+        const spinWheel4 = createWheel('wheel4', 'number4', numbers, sectionAngle, 4);
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            results.length = 0;
+            document.getElementById('finalResult').style.display = 'none'; // Hide the result while spinning
+            spinBinaryWheel();
+            spinWheel1();
+            spinWheel2();
+            spinWheel3();
+            spinWheel4();
+        });
+    </script>
+</body>
+</html>
